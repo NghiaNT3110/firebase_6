@@ -10,4 +10,6 @@
 
 - Transform Data Methods: SQL - You can check SQL code in the folders Table Query (Still Updating)
 
-- Dashboard link:Still Update
+- Dashboard link: Ongoing
+
+- DA Document: Ongoing
