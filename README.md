@@ -4,7 +4,7 @@
   
 - Data Storage: The data after transformed will be save as Big Query table format, expired in 60 days (Big Query SandBox/Free Tier only)
 
-- Data Schema Details: You can check more at here: [Data Schema Guide](https://support.google.com/analytics/answer/7029846?hl=en&sjid=5908776957046870674-AP#zippy=%2Cdevice%2Cgeo%2Capp-info%2Ccollected-traffic-source%2Ctraffic-source%2Cstream-v%C3%A0-platform%2Cecommerce%2Citems)
+- Data Schema Details: You can check more at here: [Data Schema Guide](https://support.google.com/analytics/answer/7029846?hl=en&sjid=5908776957046870674-AP#zippy=%2Cdevice%2Cgeo%2Capp-info%2Ccollected-traffic-source%2Ctraffic-source%2Cstream-v%C3%A0-platform%2Cecommerce%2Citems) and [Export Performance Monitoring data to BigQuery](https://firebase.google.com/docs/perf-mon/bigquery-export)
 
 - Discrepancy between Big Query & GA4 Data: [Discrepancy between Data Guide](https://support.google.com/analytics/answer/13578783?hl=en#zippy=%2Cin-this-article)
 
