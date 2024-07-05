@@ -10,6 +10,6 @@
 
 - Transform Data Methods: SQL - You can check SQL code in the folders Table Query (Still Updating)
 
-- Dashboard link: Ongoing
+- Dashboard link: [Case 6: Google Analytics for Firebase Report](https://lookerstudio.google.com/u/0/reporting/26d62c87-f428-4886-b6f2-4ad1ea41b829/page/gI93D)
 
 - DA Document: Ongoing
