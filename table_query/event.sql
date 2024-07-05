@@ -4,7 +4,7 @@ SELECT
   CASE WHEN
   event_name = 'user_engagement'
   THEN user_pseudo_id
-  END AS engaged_user_id, 
+  END AS engaged_user_id,event_name,
   traffic_source.source ||"/"|| traffic_source.medium AS traffic_name,
   traffic_source.source AS traffic_source,
   traffic_source.medium AS traffic_medium,
@@ -15,8 +15,6 @@ SELECT
   app_info.version as app_version,
   app_info.install_store as install_store,
   app_info.install_source as install_source,
-  event_name,
-  count(event_name) as event_record, 
   (select value.string_value from unnest(event_params) where key ='firebase_event_origin') as event_origin, 
   (SELECT value.string_value FROM UNNEST(event_params) WHERE key = 'board') AS board,
   CASE WHEN 
@@ -35,6 +33,5 @@ SELECT
   THEN 'TRUE'
   ELSE 'FALSE' 
   END AS is_conversion,
-  FROM
+   FROM
   `firebase-public-project.analytics_153293282.events_*`
-  GROUP BY ALL 
