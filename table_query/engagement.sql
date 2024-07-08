@@ -50,7 +50,7 @@ SELECT
       WHEN (SELECT value.string_value FROM UNNEST(user_properties) WHERE key ='firebase_exp_4') >= '1' THEN 'firebase_exp_4'
       WHEN (SELECT value.string_value FROM UNNEST(user_properties) WHERE key ='firebase_exp_5') >= '1' THEN 'firebase_exp_5'
       WHEN (SELECT value.string_value FROM UNNEST(user_properties) WHERE key ='firebase_exp_7') >= '1' THEN 'firebase_exp_7'
-      ELSE NULL 
+      ELSE 'no_exp'
   END AS firebase_exp_group,
   
   
