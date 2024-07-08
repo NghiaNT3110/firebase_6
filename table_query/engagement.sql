@@ -17,46 +17,41 @@ SELECT
   app_info.install_source as install_source,
   (select value.string_value from unnest(event_params) where key ='firebase_event_origin') as event_origin, 
   (SELECT value.string_value FROM UNNEST(event_params) WHERE key = 'board') AS board,
-  event_name, 
 
-  CASE WHEN 
-  event_name LIKE '%add_to_cart%'
-  OR event_name LIKE '%add_to_wishlist%'
-  OR event_name LIKE '%app_store_subscription_convert%'
-  OR event_name LIKE '%app_store_subscription_renew%'
-  OR event_name LIKE '%app_update%'
-  OR event_name LIKE '%begin_checkout%'
-  OR event_name LIKE '%completed_5_levels%'
-  OR event_name LIKE 'first_open%'
-  OR event_name LIKE '%level_start%'
-  OR event_name LIKE '%level_complete%'
-  OR event_name LIKE 'level_end_quickplay%'
-  OR event_name LIKE '%purchase%'
-  THEN 'TRUE'
-  ELSE 'FALSE' 
-  END AS is_conversion,
-
-  (select value.string_value from unnest(event_params) where key ='level_name') as level_name,
-  (select value.double_value from unnest(event_params) where key ='level') as num_of_level,
-  (select value.double_value from unnest(event_params) where key ='value') as level_up_point,
-  (select value.double_value from unnest(event_params) where key ='time') as time,
+  /* Level Analysis */
+  (select value.double_value from unnest(event_params) where key ='level') as level_name,
   (select value.double_value from unnest(event_params) where key ='score') as score,
+  /* Virtual Currency Analysis */ 
   (select value.string_value from unnest(event_params) where key ='virtual_currency_name') as virtual_currency_name,
   (select value.string_value from unnest(event_params) where key ='item_name') as item_name,
 
+  /* In app purchase Analysis */ 
+   (select value.string_value from unnest(event_params) where key ='product_id') as product_id,
+   (select value.int_value from unnest(event_params) where key ='quantity') as quantity,
+   event_value_in_usd as price,
+   (select value.int_value from unnest(event_params) where key ='quantity')  * event_value_in_usd as revenue_usd,
 
-
-
+  /* In app Ads and extra step after watching ads + Play type */ 
   (select value.string_value from unnest(user_properties) where key ='ad_frequency') as ad_frequency,
   (select value.string_value from unnest(user_properties) where key ='initial_extra_steps') as initial_extra_steps,
-  (select value.string_value from unnest(user_properties) where key ='plays_quickplay') as plays_quickplay,
-  (select value.string_value from unnest(user_properties) where key ='plays_progressive') as plays_progressive,
-  (select value.string_value from unnest(user_properties) where key ='num_levels_available') as num_levels_available,
-  (select value.string_value from unnest(user_properties) where key ='firebase_exp_1') as firebase_exp_1,
-  (select value.string_value from unnest(user_properties) where key ='firebase_exp_3') as firebase_exp_3,
-  (select value.string_value from unnest(user_properties) where key ='firebase_exp_4') as firebase_exp_4,
-  (select value.string_value from unnest(user_properties) where key ='firebase_exp_5') as firebase_exp_5,
-  (select value.string_value from unnest(user_properties) where key ='firebase_exp_7') as firebase_exp_7,
+  CASE WHEN 
+  (select value.string_value from unnest(user_properties) where key ='plays_quickplay') = 'true'
+  THEN 'TRUE' ELSE 'FALSE'
+  END AS plays_quickplay,
+  CASE WHEN
+  (select value.string_value from unnest(user_properties) where key ='plays_progressive') = 'true'
+  THEN 'TRUE' ELSE 'FALSE'
+  END AS plays_progressive,
+
+  /* Firebase experience group count */ 
+  CASE 
+      WHEN (SELECT value.string_value FROM UNNEST(user_properties) WHERE key ='firebase_exp_1') >= '1' THEN 'firebase_exp_1'
+      WHEN (SELECT value.string_value FROM UNNEST(user_properties) WHERE key ='firebase_exp_3') >= '1' THEN 'firebase_exp_3'
+      WHEN (SELECT value.string_value FROM UNNEST(user_properties) WHERE key ='firebase_exp_4') >= '1' THEN 'firebase_exp_4'
+      WHEN (SELECT value.string_value FROM UNNEST(user_properties) WHERE key ='firebase_exp_5') >= '1' THEN 'firebase_exp_5'
+      WHEN (SELECT value.string_value FROM UNNEST(user_properties) WHERE key ='firebase_exp_7') >= '1' THEN 'firebase_exp_7'
+      ELSE NULL 
+  END AS firebase_exp_group,
   
   
    FROM
